@@ -12,23 +12,14 @@ import (
 type Go struct {
 	Path       string
 	WorkingDir string
-	Executor   executor
+	Executor   clitool.Executor
 
 	Build GoBuild
 	List  GoList
 	Test  GoTest
 }
 
-type executor interface {
-	Exec(
-		ctx context.Context,
-		cmd clitool.Command,
-		args *clitool.Args,
-		stdout, stderr io.Writer,
-	) (bool, error)
-}
-
-func New(exec executor, path string) *Go {
+func New(exec clitool.Executor, path string) *Go {
 	if path == "" {
 		path = "go"
 	}
