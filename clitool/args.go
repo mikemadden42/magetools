@@ -43,10 +43,21 @@ func (a *Args) SetExtra(k, v string) {
 
 // GetExtra reads some value from 'extra' fields.
 func (a *Args) GetExtra(k string) string {
+	return a.GetExtraDefault(k, "")
+}
+
+// GetExtraDefault reads a value from 'extra' fields. Returns 'd' if the key is missing.
+func (a *Args) GetExtraDefault(k, d string) string {
 	if a.Extra == nil {
-		return ""
+		return d
 	}
-	return a.Extra[k]
+
+	val, exists := a.Extra[k]
+	if !exists {
+		return d
+	}
+
+	return val
 }
 
 // SetEnv sets an environmant variable to be passed to the child process on exec.
